@@ -1,0 +1,5 @@
+<div class='row' *ngFor='let row of grid'>
+
+  <app-block *ngFor='let block of row' [color]='colors[block]'></app-block>
+
+</div>

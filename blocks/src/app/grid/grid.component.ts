@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SocketService } from '../socket.service';
 
 @Component({
   selector: 'app-grid',
@@ -14,7 +15,7 @@ export class GridComponent implements OnInit {
     4: string,
     5: string
   }
-  constructor() { }
+  constructor(private _socketService: SocketService) { }
 
   ngOnInit() {
     this.colors = {
@@ -24,21 +25,33 @@ export class GridComponent implements OnInit {
       4: 'purple',
       5: 'white'
     }
+    this._socketService.connect().subscribe(data=>{
+      //@ts-ignore
+      if(!data.data.color){
+        console.log(data)
+      }else{
+        console.log('updating',data)
+        //@ts-ignore
+      let newcolor = data.data.color
+      //@ts-ignore
+      let pos = data.data.pos
+      for(let i = 0; i < this.grid[pos].length; i++){
+        this.grid[pos][i].color = newcolor
+      }
+      }
+
+    })
     this.setupGrid(undefined)
   }
 
   setupGrid(grid){
     this.grid = grid || [
-      [1,1,1,1,1,1,1,1,1,1],
-      [1,1,1,1,1,1,1,1,1,1],
-      [1,1,1,1,1,1,1,1,1,1],
-      [1,1,1,1,1,1,1,1,1,1],
-      [1,1,1,1,1,1,1,1,1,1],
-      [1,1,1,1,1,1,1,1,1,1],
-      [1,1,1,1,1,1,1,1,1,1],
-      [1,1,1,1,1,1,1,1,1,1],
-      [1,1,1,1,1,1,1,1,1,1],
-      [1,1,1,1,1,1,1,1,1,1],
+      [{color:1,pos:0},{color:1,pos:0},{color:1,pos:0},{color:1,pos:0},{color:1,pos:0},{color:1,pos:0},{color:1,pos:0},{color:1,pos:0},{color:1,pos:0},{color:1,pos:0}],
+      [{color:1,pos:1},{color:1,pos:1},{color:1,pos:1},{color:1,pos:1},{color:1,pos:1},{color:1,pos:1},{color:1,pos:1},{color:1,pos:1},{color:1,pos:1},{color:1,pos:1}],
+      [{color:1,pos:2},{color:1,pos:2},{color:1,pos:2},{color:1,pos:2},{color:1,pos:2},{color:1,pos:2},{color:1,pos:2},{color:1,pos:2},{color:1,pos:2},{color:1,pos:2}],
+      [{color:1,pos:3},{color:1,pos:3},{color:1,pos:3},{color:1,pos:3},{color:1,pos:3},{color:1,pos:3},{color:1,pos:3},{color:1,pos:3},{color:1,pos:3},{color:1,pos:3}],
+      [{color:1,pos:4},{color:1,pos:4},{color:1,pos:4},{color:1,pos:4},{color:1,pos:4},{color:1,pos:4},{color:1,pos:4},{color:1,pos:4},{color:1,pos:4},{color:1,pos:4}],
+
     ]
   }
 

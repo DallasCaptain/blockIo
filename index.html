@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    Hello World
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js'></script>
+    <script>
+        var socket = io.connect('http://localhost');
+        socket.on('greeting', function (data) {
+            console.log('greeting message recieved',data);
+            socket.emit('handshake', { name: 'Chris' });
+        });
+        socket.on('newconnection',function(data){
+            console.log(data.name,'also connected')
+        })
+    </script>
+</body>
+</html>
